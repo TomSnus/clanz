@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "488864453699",
+    "firebase_url": "https://clanz-c3899.firebaseio.com",
+    "project_id": "clanz-c3899",
+    "storage_bucket": "clanz-c3899.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:488864453699:android:577c69a9819a9814ebb0f6",
+        "android_client_info": {
+          "package_name": "com.fourcg.clanz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "488864453699-r4oc70ifp11br6gb2hmojs7rk98nbb65.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6RGoKq8yw-lYQBlIEJ34_3LPNLbs0_Ig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "488864453699-r4oc70ifp11br6gb2hmojs7rk98nbb65.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
