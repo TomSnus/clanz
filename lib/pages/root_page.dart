@@ -1,7 +1,8 @@
+import 'package:clanz/pages/navigation_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:clanz/pages/login_signup_page.dart';
 import 'package:clanz/services/authentication.dart';
-import 'package:clanz/pages/home_page.dart';
 
 enum AuthStatus {
   NOT_DETERMINED,
@@ -77,11 +78,11 @@ class _RootPageState extends State<RootPage> {
         break;
       case AuthStatus.LOGGED_IN:
         if (_userId.length > 0 && _userId != null) {
-          return new HomePage(
-            userId: _userId,
-            auth: widget.auth,
-            logoutCallback: logoutCallback,
-          );
+          return new BottomNavigationDemo(
+              userId: _userId,
+              auth: widget.auth,
+              logoutCallback: logoutCallback,
+              type: BottomNavigationDemoType.withLabels);
         } else
           return buildWaitingScreen();
         break;

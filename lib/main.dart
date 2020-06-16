@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
         title: 'Clanz',
         debugShowCheckedModeBanner: false,
         theme: new ThemeData(
-          primarySwatch: Colors.red,
+          primarySwatch: Colors.blueGrey,
         ),
         home: new RootPage(auth: new Auth()));
   }
