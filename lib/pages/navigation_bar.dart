@@ -77,7 +77,7 @@ class _BottomNavigationDemoState extends State<BottomNavigationDemo>
           color: Colors.amber,
         ),
         _NavigationIconView(
-          page: SubscribePage(),
+          page: SubscriptionPage(),
           icon: const Icon(Icons.notifications),
           title: 'Notifications',
           vsync: this,
