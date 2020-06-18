@@ -1,7 +1,12 @@
 import 'dart:js';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
+import 'package:clanz/database/database_service.dart';
+import 'package:clanz/services/authentication.dart';
 
 class SubscribePage extends StatelessWidget {
   static Route<dynamic> route() => MaterialPageRoute(
@@ -22,6 +27,8 @@ class SubscriptionPage extends StatefulWidget {
 class _SubscriptionState extends State<SubscriptionPage> {
   List<Widget> contentViews;
   bool _isCsGoActive;
+  DatabaseService dbService = DatabaseService();
+  _SubscriptionState();
 
   @override
   void initState() {
@@ -48,12 +55,15 @@ class _SubscriptionState extends State<SubscriptionPage> {
         child: ListTile(
           leading: const Icon(Icons.add_comment),
           title: Text('CS:GO'),
-          trailing: new Icon(_isCsGoActive
-              ? Icons.notifications_active
-              : Icons.notifications_off),
+          trailing: new Icon(
+            _isCsGoActive
+                ? Icons.notifications_active
+                : Icons.notifications_off,
+            color: _isCsGoActive ? Colors.green : Colors.red,
+          ),
           onTap: _toggleCSGO,
         ),
-        color: Colors.blueGrey,
+        color: Colors.grey[300],
       ),
       Card(
         child: ListTile(
@@ -92,8 +102,10 @@ class _SubscriptionState extends State<SubscriptionPage> {
   void _toggleCSGO() {
     setState(() {
       if (_isCsGoActive) {
+        dbService.updateSubscriptionData('csgo', 0);
         _isCsGoActive = false;
       } else {
+        dbService.updateSubscriptionData('csgo', 1);
         _isCsGoActive = true;
       }
     });
