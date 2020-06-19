@@ -2,9 +2,9 @@ import 'dart:js';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
 import 'package:clanz/database/database_service.dart';
 import 'package:clanz/services/authentication.dart';
 
@@ -18,50 +18,99 @@ class SubscribePage extends StatelessWidget {
   }
 }
 
-class SubscriptionPage extends StatefulWidget {
-  final bool _isCsGoActive = false;
+class DataRequiredForBuild {
+  bool iscsgoEnabled;
+  bool isLolEnabled;
+  bool isDndEnabled;
 
+  DataRequiredForBuild({
+    this.iscsgoEnabled,
+    this.isLolEnabled,
+    this.isDndEnabled,
+  });
+}
+
+class SubscriptionPage extends StatefulWidget {
   _SubscriptionState createState() => _SubscriptionState();
 }
 
 class _SubscriptionState extends State<SubscriptionPage> {
   List<Widget> contentViews;
-  bool _isCsGoActive;
+  bool _isCsGoActive = false;
+  bool _isLolActive = false;
+
   DatabaseService dbService = DatabaseService();
+  Future<DataRequiredForBuild> _dataRequiredForBuild;
+
   _SubscriptionState();
+
+  Future<DataRequiredForBuild> _fetchAllData() async {
+    return DataRequiredForBuild(
+        iscsgoEnabled: await dbService.getGameSubscriptionState('csgo'),
+        isLolEnabled: await dbService.getGameSubscriptionState('lol'));
+    //isDndEnabled: await dbService.getGameSubscriptionState('dnd'));
+  }
 
   @override
   void initState() {
-    _isCsGoActive = widget._isCsGoActive;
     super.initState();
+    _dataRequiredForBuild = _fetchAllData();
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget listview = getListView();
-    return Scaffold(body: listview);
+    return Scaffold(
+      body: FutureBuilder<DataRequiredForBuild>(
+        future: _dataRequiredForBuild,
+        builder: (context, snapshot) {
+          return snapshot.hasData
+              ? getListView(snapshot)
+              : Center(
+                  child: CircularProgressIndicator(),
+                );
+        },
+      ),
+    );
   }
 
-  List<Widget> getContentList() {
+  /*
+      @override
+      Widget build(BuildContext context) {
+        Widget listview = getListView();
+        return Scaffold(body: listview);
+      }
+    */
+  List<Widget> getContentList(AsyncSnapshot<DataRequiredForBuild> snapshot) {
     contentViews = <Widget>[
       Card(
         child: ListTile(
           leading: const Icon(Icons.add_comment),
           title: Text('CS:GO'),
+          trailing: new CupertinoSwitch(
+            trackColor: Colors.grey[300],
+            onChanged: (bool value) {
+              _toggle('csgo', value);
+              snapshot.data.iscsgoEnabled = value;
+              setState(() {});
+            },
+            value: snapshot.data.iscsgoEnabled,
+          ),
         ),
         color: Colors.blueGrey,
       ),
       Card(
         child: ListTile(
-          leading: const Icon(Icons.add_comment),
-          title: Text('CS:GO'),
-          trailing: new Icon(
-            _isCsGoActive
-                ? Icons.notifications_active
-                : Icons.notifications_off,
-            color: _isCsGoActive ? Colors.green : Colors.red,
+          leading: const Icon(CustomIcon.),
+          title: Text('LoL'),
+          trailing: new CupertinoSwitch(
+            trackColor: Colors.grey[300],
+            onChanged: (bool value) {
+              _toggle('lol', value);
+              snapshot.data.isLolEnabled = value;
+              setState(() {});
+            },
+            value: snapshot.data.isLolEnabled,
           ),
-          onTap: _toggleCSGO,
         ),
         color: Colors.grey[300],
       ),
@@ -90,24 +139,31 @@ class _SubscriptionState extends State<SubscriptionPage> {
     return contentViews;
   }
 
-  Widget getListView() {
+  Widget getListView(AsyncSnapshot<DataRequiredForBuild> snapshot) {
     return ListView.builder(
-      itemCount: getContentList().length,
+      itemCount: getContentList(snapshot).length,
       itemBuilder: (context, index) {
-        return getContentList().elementAt(index);
+        return getContentList(snapshot).elementAt(index);
       },
     );
   }
 
-  void _toggleCSGO() {
+  void _toggle(String game, bool toggle) {
     setState(() {
-      if (_isCsGoActive) {
-        dbService.updateSubscriptionData('csgo', 0);
-        _isCsGoActive = false;
-      } else {
-        dbService.updateSubscriptionData('csgo', 1);
-        _isCsGoActive = true;
-      }
+      dbService.updateSubscriptionData(game, toggle);
     });
+  }
+
+  bool getSubscriptionState(String game) {
+    bool isSubscribed = false;
+    dbService.getGameSubscriptionState(game).then((value) => {
+          isSubscribed = value,
+        });
+    return isSubscribed;
+  }
+
+  void initSnapData(AsyncSnapshot<DataRequiredForBuild> snapshot) {
+    _isCsGoActive = snapshot.data.iscsgoEnabled;
+    _isLolActive = snapshot.data.isLolEnabled;
   }
 }
