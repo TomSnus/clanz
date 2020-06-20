@@ -1,5 +1,9 @@
+import 'dart:js';
+
+import 'package:clanz/database/database_service.dart';
 import 'package:clanz/pages/navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:clanz/pages/login_signup_page.dart';
 import 'package:clanz/services/authentication.dart';
@@ -22,6 +26,7 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State<RootPage> {
   AuthStatus authStatus = AuthStatus.NOT_DETERMINED;
   String _userId = "";
+
 
   @override
   void initState() {
@@ -90,4 +95,6 @@ class _RootPageState extends State<RootPage> {
         return buildWaitingScreen();
     }
   }
+
+
 }

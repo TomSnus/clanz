@@ -4,7 +4,8 @@ description: 4CG Clanz App
 dependencies:
   flutter:
     sdk: flutter
-
+  get: ^2.14.1
+  provider: ^4.1.3
   cupertino_icons: ^0.1.2
   firebase_auth: ^0.16.0
   google_sign_in: ^4.4.4
@@ -16,9 +17,10 @@ dev_dependencies:
     sdk: flutter
 
 flutter:
-
+  assets:
+    - assets/4cg-icon.png
   uses-material-design: true
-fonts:
-    - family: CustomIcon
+  fonts:
+    - family:  CustomIcon
       fonts:
-        - asset: assets/icons/lol.ttf
+        - asset: assets/fonts/CustomIcon.ttf

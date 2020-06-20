@@ -1,5 +1,9 @@
+import 'package:clanz/database/database_service.dart';
+import 'package:clanz/presentaion/clanz_colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:clanz/services/authentication.dart';
+import 'package:get/get.dart';
 
 class LoginSignupPage extends StatefulWidget {
   LoginSignupPage({this.auth, this.loginCallback});
@@ -13,12 +17,14 @@ class LoginSignupPage extends StatefulWidget {
 
 class _LoginSignupPageState extends State<LoginSignupPage> {
   final _formKey = new GlobalKey<FormState>();
+  DatabaseService dbService = DatabaseService();
+  TextEditingController textEditorController = TextEditingController();
 
   String _email;
   String _password;
   String _errorMessage;
 
-    bool _isLoginForm;
+  bool _isLoginForm;
   bool _isLoading;
 
   // Check if form is valid before perform login or signup
@@ -54,6 +60,9 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         });
 
         if (userId.length > 0 && userId != null && _isLoginForm) {
+          dbService.getIsUserRegistered().then((value) => {
+                if (!value) initUserData(context),
+              });
           widget.loginCallback();
         }
       } catch (e) {
@@ -65,6 +74,37 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         });
       }
     }
+  }
+
+  Future<String> createDialogArea(BuildContext context) {
+    return showCupertinoDialog(
+        //useRootNavigator: false,
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            title: Text('Username'),
+            content: CupertinoTextField(
+              placeholder: 'username',
+              cursorColor: ClanzColors.getSecColor(),
+              controller: textEditorController,
+            ),
+            actions: [
+              CupertinoButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .pop(textEditorController.text.toString());
+                },
+                child: Text('Auf geht\'s'),
+              )
+            ],
+          );
+        });
+  }
+
+  void initUserData(BuildContext context) {
+    createDialogArea(context)
+        .then((value) => {dbService.registerUser(_email, value)});
   }
 
   @override
@@ -111,28 +151,28 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     );
   }
 
- void _showVerifyEmailSentDialog() {
-   showDialog(
-     context: context,
-     builder: (BuildContext context) {
-       // return object of type Dialog
-       return AlertDialog(
-         title: new Text("Verify your account"),
-         content:
-             new Text("Link to verify account has been sent to your email"),
-         actions: <Widget>[
-           new FlatButton(
-             child: new Text("Dismiss"),
-             onPressed: () {
-               toggleFormMode();
-               Navigator.of(context).pop();
-             },
-           ),
-         ],
-       );
-     },
-   );
- }
+  void _showVerifyEmailSentDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Verify your account"),
+          content:
+              new Text("Link to verify account has been sent to your email"),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("Dismiss"),
+              onPressed: () {
+                toggleFormMode();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   Widget _showForm() {
     return new Container(
@@ -195,7 +235,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
             hintText: 'Email',
             icon: new Icon(
               Icons.mail,
-              color: Colors.grey,
+              color: ClanzColors.getSecColor(),
             )),
         validator: (value) => value.isEmpty ? 'Email can\'t be empty' : null,
         onSaved: (value) => _email = value.trim(),
@@ -214,7 +254,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
             hintText: 'Password',
             icon: new Icon(
               Icons.lock,
-              color: Colors.grey,
+              color: ClanzColors.getSecColor(),
             )),
         validator: (value) => value.isEmpty ? 'Password can\'t be empty' : null,
         onSaved: (value) => _password = value.trim(),
@@ -239,7 +279,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
             elevation: 5.0,
             shape: new RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(30.0)),
-            color: Colors.red,
+            //color: Colors.red,
             child: new Text(_isLoginForm ? 'Login' : 'Create account',
                 style: new TextStyle(fontSize: 20.0, color: Colors.white)),
             onPressed: validateAndSubmit,

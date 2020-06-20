@@ -1,5 +1,6 @@
 import 'dart:js';
 
+import 'package:clanz/presentaion/custom_icon_icons.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,11 +23,13 @@ class DataRequiredForBuild {
   bool iscsgoEnabled;
   bool isLolEnabled;
   bool isDndEnabled;
+  bool isBookClubEnabled;
 
   DataRequiredForBuild({
     this.iscsgoEnabled,
     this.isLolEnabled,
     this.isDndEnabled,
+    this.isBookClubEnabled,
   });
 }
 
@@ -36,8 +39,6 @@ class SubscriptionPage extends StatefulWidget {
 
 class _SubscriptionState extends State<SubscriptionPage> {
   List<Widget> contentViews;
-  bool _isCsGoActive = false;
-  bool _isLolActive = false;
 
   DatabaseService dbService = DatabaseService();
   Future<DataRequiredForBuild> _dataRequiredForBuild;
@@ -47,7 +48,9 @@ class _SubscriptionState extends State<SubscriptionPage> {
   Future<DataRequiredForBuild> _fetchAllData() async {
     return DataRequiredForBuild(
         iscsgoEnabled: await dbService.getGameSubscriptionState('csgo'),
-        isLolEnabled: await dbService.getGameSubscriptionState('lol'));
+        isLolEnabled: await dbService.getGameSubscriptionState('lol'),
+        isDndEnabled: await dbService.getGameSubscriptionState('dnd'),
+        isBookClubEnabled: await dbService.getGameSubscriptionState('buchklub'));
     //isDndEnabled: await dbService.getGameSubscriptionState('dnd'));
   }
 
@@ -84,7 +87,7 @@ class _SubscriptionState extends State<SubscriptionPage> {
     contentViews = <Widget>[
       Card(
         child: ListTile(
-          leading: const Icon(Icons.add_comment),
+          leading: const Icon(CustomIcon.counter_strike),
           title: Text('CS:GO'),
           trailing: new CupertinoSwitch(
             trackColor: Colors.grey[300],
@@ -96,11 +99,11 @@ class _SubscriptionState extends State<SubscriptionPage> {
             value: snapshot.data.iscsgoEnabled,
           ),
         ),
-        color: Colors.blueGrey,
       ),
       Card(
         child: ListTile(
-          leading: const Icon(CustomIcon.),
+          leading: const Icon(CustomIcon.icons8_league_of_legends,
+              color: Colors.white),
           title: Text('LoL'),
           trailing: new CupertinoSwitch(
             trackColor: Colors.grey[300],
@@ -112,28 +115,36 @@ class _SubscriptionState extends State<SubscriptionPage> {
             value: snapshot.data.isLolEnabled,
           ),
         ),
-        color: Colors.grey[300],
       ),
       Card(
         child: ListTile(
-          leading: const Icon(Icons.add_comment),
-          title: Text('CS:GO'),
+          leading: const Icon(CustomIcon.dnd, color: Colors.white),
+          title: Text('D&D'),
+          trailing: new CupertinoSwitch(
+            trackColor: Colors.grey[300],
+            onChanged: (bool value) {
+              _toggle('dnd', value);
+              snapshot.data.isDndEnabled = value;
+              setState(() {});
+            },
+            value: snapshot.data.isDndEnabled,
+          ),
         ),
-        color: Colors.blueGrey,
       ),
       Card(
         child: ListTile(
-          leading: const Icon(Icons.add_comment),
-          title: Text('CS:GO'),
+          leading: const Icon(Icons.book),
+          title: Text('BuchKlub'),
+          trailing: new CupertinoSwitch(
+            trackColor: Colors.grey[300],
+            onChanged: (bool value) {
+              _toggle('buchklub', value);
+              snapshot.data.isBookClubEnabled = value;
+              setState(() {});
+            },
+            value: snapshot.data.isBookClubEnabled,
+          ),
         ),
-        color: Colors.blueGrey,
-      ),
-      Card(
-        child: ListTile(
-          leading: const Icon(Icons.add_comment),
-          title: Text('CS:GO'),
-        ),
-        color: Colors.blueGrey,
       ),
     ];
     return contentViews;
@@ -160,10 +171,5 @@ class _SubscriptionState extends State<SubscriptionPage> {
           isSubscribed = value,
         });
     return isSubscribed;
-  }
-
-  void initSnapData(AsyncSnapshot<DataRequiredForBuild> snapshot) {
-    _isCsGoActive = snapshot.data.iscsgoEnabled;
-    _isLolActive = snapshot.data.isLolEnabled;
   }
 }

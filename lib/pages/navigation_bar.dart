@@ -1,9 +1,13 @@
+import 'package:clanz/database/database_service.dart';
 import 'package:clanz/pages/calendar_page.dart';
 import 'package:clanz/pages/home_page.dart';
 import 'package:clanz/pages/profile_page.dart';
 import 'package:clanz/pages/subscribe_page.dart';
 import 'package:clanz/services/authentication.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'user/member_page.dart';
 
 enum BottomNavigationDemoType {
   withLabels,
@@ -53,35 +57,35 @@ class _BottomNavigationDemoState extends State<BottomNavigationDemo>
           icon: const Icon(Icons.add_comment),
           title: 'Comment',
           vsync: this,
-          color: Colors.blueGrey,
+          //color: Colors.blueGrey,
         ),
         _NavigationIconView(
           page: CalendarPage(),
           icon: const Icon(Icons.calendar_today),
           title: 'Calendar',
           vsync: this,
-          color: Colors.lightGreen,
+          //color: Colors.lightGreen,
         ),
         _NavigationIconView(
           page: ProfilePage(),
           icon: const Icon(Icons.account_circle),
           title: 'Account',
           vsync: this,
-          color: Colors.lightBlue,
+          //color: Colors.lightBlue,
         ),
         _NavigationIconView(
-          page: ProfilePage(),
-          icon: const Icon(Icons.alarm_on),
-          title: 'Alarm',
+          page: MemberPage(),
+          icon: const Icon(Icons.people),
+          title: 'Member',
           vsync: this,
-          color: Colors.amber,
+          //color: Colors.amber,
         ),
         _NavigationIconView(
           page: SubscribePage(),
           icon: const Icon(Icons.notifications),
           title: 'Notifications',
           vsync: this,
-          color: Colors.cyan,
+          //color: Colors.cyan,
         ),
       ];
 
@@ -134,7 +138,7 @@ class _BottomNavigationDemoState extends State<BottomNavigationDemo>
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(_navigationViews.elementAt(_currentIndex).title),
-        backgroundColor:_navigationViews.elementAt(_currentIndex).color,
+        backgroundColor: _navigationViews.elementAt(_currentIndex).color,
       ),
       body: IndexedStack(
         index: _currentIndex,
@@ -151,9 +155,9 @@ class _BottomNavigationDemoState extends State<BottomNavigationDemo>
         selectedFontSize: textTheme.caption.fontSize,
         unselectedFontSize: textTheme.caption.fontSize,
         onTap: (int index) => setState(() => _currentIndex = index),
-        selectedItemColor: colorScheme.onPrimary,
-        unselectedItemColor: colorScheme.onPrimary.withOpacity(0.38),
-        backgroundColor: _navigationViews.elementAt(_currentIndex).color,
+        //selectedItemColor: colorScheme.onPrimary,
+        // unselectedItemColor: colorScheme.onPrimary.withOpacity(0.38),
+        // backgroundColor: _navigationViews.elementAt(_currentIndex).color,
       ),
     );
   }
@@ -208,7 +212,7 @@ class _NavigationIconView {
           Center(
             child: IconTheme(
               data: const IconThemeData(
-                color: Colors.white,
+                //color: Colors.white,
                 size: 80,
               ),
               child: Semantics(
