@@ -10,7 +10,7 @@ class DatabaseService {
   final CollectionReference userCollection =
       Firestore.instance.collection('user');
 
-  Future<String> _getUserId() async {
+  Future<String> getUserId() async {
     if (_uid == null) {
       FirebaseUser user = await FirebaseAuth.instance.currentUser();
       _uid = user.uid;
@@ -19,7 +19,7 @@ class DatabaseService {
   }
 
   Future<bool> getIsUserRegistered() async {
-    if (this._uid == null) await _getUserId();
+    if (this._uid == null) await getUserId();
     DocumentSnapshot userEntry = await userCollection.document(_uid).get();
     if (userEntry == null || !userEntry.exists) return false;
     return true;
@@ -29,7 +29,7 @@ class DatabaseService {
     return await gamesCollection
         .document(game)
         .collection('subscriber')
-        .document(await _getUserId())
+        .document(await getUserId())
         .setData({
       'enabled': enabled,
     });
@@ -37,7 +37,7 @@ class DatabaseService {
 
   Future<bool> getGameSubscriptionState(String game) async {
     bool _value = false;
-    String uid = await _getUserId();
+    String uid = await getUserId();
     await gamesCollection
         .document(game)
         .collection('subscriber')
@@ -49,7 +49,7 @@ class DatabaseService {
 
   void registerUser(String email, String name) {
     String rank = 'member';
-    _getUserId().then((value) => {
+    getUserId().then((value) => {
           userCollection.document(value).setData(
               {'uid': value, 'email': email, 'name': name, 'rank': rank}),
         });
