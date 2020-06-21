@@ -1,5 +1,5 @@
 import 'package:clanz/database/database_service.dart';
-import 'package:clanz/pages/user/clanz_user.dart';
+import 'package:clanz/models/clanz_user.dart';
 import 'package:clanz/pages/user/user_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -15,7 +15,7 @@ class MemberPage extends StatelessWidget {
     return StreamProvider<List<ClanzUser>>.value(
       value: DatabaseService().clanzUsers,
       child: Scaffold(
-         body: UserList(),
+        body: UserList(),
       ),
     );
   }
@@ -30,14 +30,18 @@ class _UserListState extends State<UserList> {
   @override
   Widget build(BuildContext context) {
     final users = Provider.of<List<ClanzUser>>(context);
-    /*
+    if (users == null) {
+      return CircularProgressIndicator(
+        backgroundColor: Colors.red,
+      );
+    }
     return ListView.builder(
       itemCount: users.length,
       itemBuilder: (context, index) {
         return UserTile(user: users[index]);
       },
     );
-    */
-    return Scaffold();
+
+    //return Scaffold();
   }
 }

@@ -1,9 +1,12 @@
 import 'package:clanz/database/database_service.dart';
 import 'package:clanz/presentaion/clanz_colors.dart';
+import 'package:clanz/services/dialog_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:clanz/services/authentication.dart';
 import 'package:get/get.dart';
+
+import '../locator.dart';
 
 class LoginSignupPage extends StatefulWidget {
   LoginSignupPage({this.auth, this.loginCallback});
@@ -19,6 +22,8 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   final _formKey = new GlobalKey<FormState>();
   DatabaseService dbService = DatabaseService();
   TextEditingController textEditorController = TextEditingController();
+
+  DialogService _dialogService = locator<DialogService>();
 
   String _email;
   String _password;
@@ -61,7 +66,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
 
         if (userId.length > 0 && userId != null && _isLoginForm) {
           dbService.getIsUserRegistered().then((value) => {
-                if (!value) initUserData(context),
+                if (!value) initUserData(),
               });
           widget.loginCallback();
         }
@@ -76,7 +81,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     }
   }
 
-  Future<String> createDialogArea(BuildContext context) {
+  Future<String> createDialogArea() {
     return showCupertinoDialog(
         //useRootNavigator: false,
         barrierDismissible: false,
@@ -102,9 +107,24 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         });
   }
 
-  void initUserData(BuildContext context) {
-    createDialogArea(context)
-        .then((value) => {dbService.registerUser(_email, value)});
+  void initUserData() {
+    doThings();
+    // createDialogArea()
+    //     .then((value) => {dbService.registerUser(_email, value)});
+  }
+
+  Future doThings() async {
+    print('dialog called');
+    var dialogResult = await _dialogService.showDialog(
+      title: 'Custom Title',
+      description: 'FilledStacks architecture rocks',
+    );
+    if (dialogResult.confirmed) {
+      dbService.registerUser(_email, dialogResult.fieldOne);
+      print('User has confirmed');
+    } else {
+      print('User cancelled the dialog');
+    }
   }
 
   @override

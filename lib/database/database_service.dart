@@ -1,5 +1,5 @@
-import 'package:clanz/pages/user/clanz_user.dart';
-import 'package:clanz/pages/user/clanz_user.dart';
+import 'package:clanz/models/clanz_game.dart';
+import 'package:clanz/models/clanz_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -48,18 +48,16 @@ class DatabaseService {
   }
 
   void registerUser(String email, String name) {
-    String rank = 'rank';
+    String rank = 'member';
     _getUserId().then((value) => {
-          userCollection
-              .document(value)
-              .setData({'uid': value, 'email': email, 'name': name, 'rank': rank}),
+          userCollection.document(value).setData(
+              {'uid': value, 'email': email, 'name': name, 'rank': rank}),
         });
   }
 
-
-  List<ClanzUser> _userListFromSnapShot(QuerySnapshot snap){
+  List<ClanzUser> _userListFromSnapShot(QuerySnapshot snap) {
     return snap.documents.map((doc) {
-      ClanzUser(
+      return ClanzUser(
           uid: doc.data['uid'] ?? '',
           name: doc.data['name'] ?? '',
           email: doc.data['email'] ?? '',
@@ -67,7 +65,44 @@ class DatabaseService {
     }).toList();
   }
 
-  Stream<List<ClanzUser>> get clanzUsers{
+  Stream<List<ClanzUser>> get clanzUsers {
     return userCollection.snapshots().map(_userListFromSnapShot);
+  }
+
+  //get game data
+
+  CollectionReference _getGameSubscriberCollection(String game) {
+    return Firestore.instance
+        .collection('games')
+        .document(game)
+        .collection('subscriber');
+  }
+
+  Future<Map<String, bool>> _getGameSubscriptionUsers(String game) async {
+    final values = Map<String, bool>();
+    await _getGameSubscriberCollection(game).getDocuments().then((value) => {
+          value.documents
+              .map((e) => {values[e.documentID] = e.data['enabled']})
+              .toList()
+        });
+    return values;
+  }
+
+  List<ClanzGame> _subscriberList(QuerySnapshot snap) {
+    return snap.documents.map((doc) {
+      // Map<String, bool> subscriber;
+      // doc.reference.collection('subscriber').getDocuments().then((value) => {
+      //       value.documents
+      //           .map((e) => {subscriber[e.documentID] = e.data['enabled']})
+      //     });
+      return ClanzGame(
+          name: doc.data['name'] ?? '',
+          icon: doc.data['icon'] ?? '',
+          subscriber: doc.data['subscriber']);
+    }).toList();
+  }
+
+  Stream<List<ClanzGame>> get games {
+    return gamesCollection.snapshots().map(_subscriberList);
   }
 }

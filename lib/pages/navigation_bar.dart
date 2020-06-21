@@ -6,7 +6,9 @@ import 'package:clanz/pages/subscribe_page.dart';
 import 'package:clanz/services/authentication.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
+import 'games/subscribe_page2.dart';
 import 'user/member_page.dart';
 
 enum BottomNavigationDemoType {
@@ -54,7 +56,7 @@ class _BottomNavigationDemoState extends State<BottomNavigationDemo>
       _navigationViews = <_NavigationIconView>[
         _NavigationIconView(
           page: ProfilePage(),
-          icon: const Icon(Icons.add_comment),
+          icon: const Icon(Entypo.game_controller),
           title: 'Comment',
           vsync: this,
           //color: Colors.blueGrey,
@@ -81,7 +83,7 @@ class _BottomNavigationDemoState extends State<BottomNavigationDemo>
           //color: Colors.amber,
         ),
         _NavigationIconView(
-          page: SubscribePage(),
+          page: SubscribePage2(),
           icon: const Icon(Icons.notifications),
           title: 'Notifications',
           vsync: this,

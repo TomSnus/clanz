@@ -1,8 +1,7 @@
+import 'package:clanz/models/clanz_user.dart';
 import 'package:clanz/presentaion/clanz_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'clanz_user.dart';
 
 class UserTile extends StatelessWidget {
   final ClanzUser user;
@@ -15,9 +14,9 @@ class UserTile extends StatelessWidget {
         child: Card(
           margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
           child: ListTile(
-            trailing: Text(user.rank),
-            title: Text(user.name),
-            subtitle: Text(user.email),
+            trailing: Text(user.rank ?? ''),
+            title: Text(user.name) ?? '',
+            subtitle: Text(user.email ?? ''),
             isThreeLine: true,
             
             leading: CircleAvatar(
