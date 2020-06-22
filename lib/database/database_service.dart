@@ -89,6 +89,7 @@ class DatabaseService {
   }
 
   List<ClanzGame> _subscriberList(QuerySnapshot snap) {
+    Map<String, bool> defaultMap = {'': false,};
     return snap.documents.map((doc) {
       // Map<String, bool> subscriber;
       // doc.reference.collection('subscriber').getDocuments().then((value) => {
@@ -98,7 +99,7 @@ class DatabaseService {
       return ClanzGame(
           name: doc.data['name'] ?? '',
           icon: doc.data['icon'] ?? '',
-          subscriber: doc.data['subscriber']);
+          subscriber: doc.data['subscriber'] ?? defaultMap);
     }).toList();
   }
 

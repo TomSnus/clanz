@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:clanz/models/clanz_game.dart';
-import 'package:clanz/presentaion/custom_icon_icons.dart';
 import 'package:clanz/ui/CustomIconFactory.dart';
 
 class GamesTile extends StatelessWidget {
   final ClanzGame game;
-  const GamesTile({this.game});
+  final String userId;
+  const GamesTile({this.game, this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +20,13 @@ class GamesTile extends StatelessWidget {
             leading: Icon(CustomIconFactory().getIcon(game.icon)),
             title: Text(game.name),
             trailing: new CupertinoSwitch(
-                trackColor: Colors.grey[300],
-                onChanged: (bool value) {
-                  //_toggle(game.icon, value);
-                  // game.subscriber[userId] = value;
-                },
-                value: false //game.subscriber['HeQg46xhn8N32lvyse7El2yVSKr1'],
-                ),
+              trackColor: Colors.grey[300],
+              onChanged: (bool value) {
+                //_toggle(game.icon, value);
+                game.subscriber[userId] = value;
+              },
+              value: game.subscriber[userId] ?? false,
+            ),
           ),
         ));
   }
