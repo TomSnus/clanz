@@ -1,3 +1,4 @@
+import 'package:clanz/database/database_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -22,12 +23,17 @@ class GamesTile extends StatelessWidget {
             trailing: new CupertinoSwitch(
               trackColor: Colors.grey[300],
               onChanged: (bool value) {
-                //_toggle(game.icon, value);
+                _toggle(userId, game.icon, value);
                 game.subscriber[userId] = value;
               },
               value: game.subscriber[userId] ?? false,
             ),
           ),
         ));
+  }
+
+  void _toggle(String userId, String game, bool toggle) {
+    DatabaseService dbService = DatabaseService();
+    dbService.updateSubscriptionData(userId, game, toggle);
   }
 }

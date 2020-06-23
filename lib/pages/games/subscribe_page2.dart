@@ -47,7 +47,8 @@ class _GamesListState extends State<GamesList> {
             return ListView.builder(
               itemCount: games.length,
               itemBuilder: (context, index) {
-                return GamesTile(userId: snapshot.data, game: games[index]);
+                return GamesTile(
+                  userId: snapshot.data, game: games[index]);
               },
             );
           } else {

@@ -25,14 +25,11 @@ class DatabaseService {
     return true;
   }
 
-  Future updateSubscriptionData(String game, bool enabled) async {
-    return await gamesCollection
-        .document(game)
-        .collection('subscriber')
-        .document(await getUserId())
-        .setData({
-      'enabled': enabled,
-    });
+  Future updateSubscriptionData(
+      String userId, String game, bool enabled) async {
+    return await gamesCollection.document(game).setData({
+      'subscriber': {userId: enabled},
+    }, merge: true);
   }
 
   Future<bool> getGameSubscriptionState(String game) async {
@@ -52,6 +49,11 @@ class DatabaseService {
     getUserId().then((value) => {
           userCollection.document(value).setData(
               {'uid': value, 'email': email, 'name': name, 'rank': rank}),
+          gamesCollection.reference().getDocuments().then((value) => {
+                value.documents.forEach((element) {
+                  _initGameData(element, value);
+                })
+              }),
         });
   }
 
@@ -89,7 +91,9 @@ class DatabaseService {
   }
 
   List<ClanzGame> _subscriberList(QuerySnapshot snap) {
-    Map<String, bool> defaultMap = {'': false,};
+    Map<String, bool> defaultMap = {
+      '': false,
+    };
     return snap.documents.map((doc) {
       // Map<String, bool> subscriber;
       // doc.reference.collection('subscriber').getDocuments().then((value) => {
@@ -105,5 +109,11 @@ class DatabaseService {
 
   Stream<List<ClanzGame>> get games {
     return gamesCollection.snapshots().map(_subscriberList);
+  }
+
+  void _initGameData(DocumentSnapshot game, QuerySnapshot userId) {
+    gamesCollection.document(game.documentID).updateData({
+      'subscriber': {userId: false}
+    });
   }
 }

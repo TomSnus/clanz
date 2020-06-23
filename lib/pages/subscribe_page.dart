@@ -161,7 +161,7 @@ class _SubscriptionState extends State<SubscriptionPage> {
 
   void _toggle(String game, bool toggle) {
     setState(() {
-      dbService.updateSubscriptionData(game, toggle);
+     // dbService.updateSubscriptionData(game, toggle);
     });
   }
 
