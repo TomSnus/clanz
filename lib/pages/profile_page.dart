@@ -151,7 +151,7 @@ class ProfilePage extends StatelessWidget {
               Positioned(
                 right: 0,
                 left: 0,
-                bottom: -26,
+                bottom: -150,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                       vertical: 30.0, horizontal: 16.0),
@@ -184,9 +184,9 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
-                height: height / 40,
-              ),
+              // SizedBox(
+              //   height: height / 40,
+              // ),
               Positioned(
                 width: width / 2,
                 child: RaisedButton(

@@ -1,3 +1,4 @@
+import 'package:clanz/models/clanz_event.dart';
 import 'package:clanz/models/clanz_game.dart';
 import 'package:clanz/models/clanz_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,6 +10,8 @@ class DatabaseService {
       Firestore.instance.collection('games');
   final CollectionReference userCollection =
       Firestore.instance.collection('user');
+  final CollectionReference eventCollection =
+      Firestore.instance.collection('events');
 
   Future<String> getUserId() async {
     if (_uid == null) {
@@ -71,8 +74,7 @@ class DatabaseService {
     return userCollection.snapshots().map(_userListFromSnapShot);
   }
 
-  //get game data
-
+  //game data
   CollectionReference _getGameSubscriberCollection(String game) {
     return Firestore.instance
         .collection('games')
@@ -95,11 +97,6 @@ class DatabaseService {
       '': false,
     };
     return snap.documents.map((doc) {
-      // Map<String, bool> subscriber;
-      // doc.reference.collection('subscriber').getDocuments().then((value) => {
-      //       value.documents
-      //           .map((e) => {subscriber[e.documentID] = e.data['enabled']})
-      //     });
       return ClanzGame(
           name: doc.data['name'] ?? '',
           icon: doc.data['icon'] ?? '',
@@ -115,5 +112,22 @@ class DatabaseService {
     gamesCollection.document(game.documentID).updateData({
       'subscriber': {userId: false}
     });
+  }
+
+  //event data
+  List<ClanzEvent> _eventList(QuerySnapshot snap) {
+    return snap.documents.map((doc) {
+      return ClanzEvent(
+          name: doc.data['name'] ?? '',
+          icon: doc.data['icon'] ?? '',
+          date: doc.data['date'] ?? DateTime.now(),
+          description: doc.data['description'] ?? '',
+          game: doc.data['game'] ?? '',
+          participants: doc.data['participants'] ?? '');
+    }).toList();
+  }
+
+  Stream<List<ClanzEvent>> get events {
+    return eventCollection.snapshots().map(_eventList);
   }
 }

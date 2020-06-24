@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
+import 'events/events_page.dart';
 import 'games/subscribe_page2.dart';
 import 'user/member_page.dart';
 
@@ -55,7 +56,7 @@ class _BottomNavigationDemoState extends State<BottomNavigationDemo>
     if (_navigationViews == null) {
       _navigationViews = <_NavigationIconView>[
         _NavigationIconView(
-          page: ProfilePage(),
+          page: EventPage(),
           icon: const Icon(Entypo.game_controller),
           title: 'Comment',
           vsync: this,
