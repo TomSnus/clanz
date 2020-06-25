@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+
+import 'event_registration_fields.dart';
 
 class EventRegistrationPageRoute extends CupertinoPageRoute {
   EventRegistrationPageRoute()
@@ -24,22 +27,18 @@ class EventRegistrationView extends StatelessWidget {
       body: Center(
         child: Hero(
           tag: "demoTag",
-          child: Icon(
-            Icons.thumb_up,
-            size: 200.0,
-            color: Colors.blue,
-          ),
+          child: EventRegistrationFields(),
           flightShuttleBuilder:
               (flightContext, animation, direction, fromContext, toContext) {
             if (direction == HeroFlightDirection.push) {
               return Icon(
-                Icons.favorite,
+                Entypo.game_controller,
                 size: 150.0,
                 color: Colors.blue,
               );
             } else if (direction == HeroFlightDirection.pop) {
               return Icon(
-                Icons.favorite,
+                Icons.gamepad,
                 size: 70.0,
                 color: Colors.blue,
               );

@@ -1,13 +1,20 @@
 import 'package:clanz/locator.dart';
+import 'package:clanz/models/clanz_game.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:clanz/services/authentication.dart';
 import 'package:clanz/pages/root_page.dart';
+import 'package:provider/provider.dart';
 
 import 'managers/dialog_manager.dart';
 
 void main() {
-  runApp(new MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ClanzGame(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
