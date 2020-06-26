@@ -151,6 +151,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
+          
           title: new Text('4CG Clanz'),
         ),
         body: Stack(

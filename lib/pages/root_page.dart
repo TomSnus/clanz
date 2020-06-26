@@ -27,7 +27,6 @@ class _RootPageState extends State<RootPage> {
   AuthStatus authStatus = AuthStatus.NOT_DETERMINED;
   String _userId = "";
 
-
   @override
   void initState() {
     super.initState();
@@ -95,6 +94,4 @@ class _RootPageState extends State<RootPage> {
         return buildWaitingScreen();
     }
   }
-
-
 }

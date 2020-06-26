@@ -58,7 +58,7 @@ class _BottomNavigationDemoState extends State<BottomNavigationDemo>
         _NavigationIconView(
           page: EventPage(),
           icon: const Icon(Entypo.game_controller),
-          title: 'Comment',
+          title: 'Events',
           vsync: this,
           //color: Colors.blueGrey,
         ),

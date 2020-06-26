@@ -15,11 +15,16 @@ class SubscribePage2 extends StatelessWidget {
       );
   @override
   Widget build(BuildContext context) {
+    /*
     return StreamProvider<List<ClanzGame>>.value(
       value: DatabaseService().games,
       child: Scaffold(
         body: GamesList(),
       ),
+    );
+    */
+    return Container(
+      child: GamesList(),
     );
   }
 }
@@ -47,8 +52,7 @@ class _GamesListState extends State<GamesList> {
             return ListView.builder(
               itemCount: games.length,
               itemBuilder: (context, index) {
-                return GamesTile(
-                  userId: snapshot.data, game: games[index]);
+                return GamesTile(userId: snapshot.data, game: games[index]);
               },
             );
           } else {

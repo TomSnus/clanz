@@ -5,7 +5,8 @@ class ClanzEvent {
   final List<String> participants;
   final DateTime date;
   final String description;
+  final String creator;
 
   ClanzEvent({this.name, this.icon, this.game, this.participants, this.date,
-      this.description});
+      this.description, this.creator});
 }
