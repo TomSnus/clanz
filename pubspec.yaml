@@ -14,7 +14,8 @@ dependencies:
   get_it: ^4.0.2
   rflutter_alert: ^1.0.3
   flutter_icons: ^1.1.0
-
+  flutter_localizations:
+    sdk: flutter
 dev_dependencies:
   flutter_test:
     sdk: flutter

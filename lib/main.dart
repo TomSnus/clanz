@@ -1,13 +1,16 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
+
 import 'package:clanz/database/database_service.dart';
 import 'package:clanz/locator.dart';
 import 'package:clanz/models/clanz_game.dart';
-import 'package:clanz/presentaion/clanz_colors.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:clanz/services/authentication.dart';
-import 'package:clanz/pages/root_page.dart';
-import 'package:provider/provider.dart';
 import 'package:clanz/models/clanz_game.dart';
+import 'package:clanz/pages/root_page.dart';
+import 'package:clanz/presentaion/clanz_colors.dart';
+import 'package:clanz/services/authentication.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'managers/dialog_manager.dart';
 
 void main() {
@@ -23,6 +26,16 @@ class MyApp extends StatelessWidget {
     return StreamProvider<List<ClanzGame>>.value(
       value: DatabaseService().games,
       child: MaterialApp(
+        localizationsDelegates: [
+          // ... app-specific localization delegate[s] here
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('en', ''),
+          const Locale('de', ''),
+        ],
         theme: new ThemeData(
           brightness: Brightness.dark,
           primaryColor: ClanzColors.getPrimaryColor(),

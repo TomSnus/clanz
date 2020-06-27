@@ -1,7 +1,9 @@
+import 'package:clanz/presentaion/clanz_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:clanz/presentaion/clanz_colors.dart';
 
-const textInputDecoration = InputDecoration(
-  fillColor: Colors.white,
+InputDecoration textInputDecoration = InputDecoration(
+  fillColor:  ClanzColors.getSecColor(),
   filled: true,
   contentPadding: EdgeInsets.all(12.0),
   enabledBorder: OutlineInputBorder(
@@ -9,5 +11,13 @@ const textInputDecoration = InputDecoration(
   ),
   focusedBorder: OutlineInputBorder(
     borderSide: BorderSide(color: Colors.pink, width: 2.0),
+  ),
+);
+
+ShapeDecoration dropDownDecoration = ShapeDecoration(
+  color: ClanzColors.getSecColor(),
+  shape: RoundedRectangleBorder(
+    side: BorderSide(width: 1.0, style: BorderStyle.solid, color: Colors.white),
+    borderRadius: BorderRadius.circular(18.0),
   ),
 );

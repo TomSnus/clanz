@@ -116,18 +116,23 @@ class DatabaseService {
 
   //event data
   List<ClanzEvent> _eventList(QuerySnapshot snap) {
-    return snap.documents.map((doc) {
-      return ClanzEvent(
-          name: doc.data['name'] ?? '',
-          icon: doc.data['icon'] ?? '',
-          date: doc.data['date'] ?? DateTime.now(),
-          description: doc.data['description'] ?? '',
-          game: doc.data['game'] ?? '',
-          participants: doc.data['participants'] ?? '');
-    }).toList();
+    List<ClanzEvent> _list;
+    List<DocumentSnapshot> eventDocs = snap.documents;
+    for (int _i = 0; _i < eventDocs.length; _i++) {
+      ClanzEvent event = ClanzEvent.fromJson(eventDocs[_i].data);
+      event.id = eventDocs[_i].documentID;
+      _list.add(event);
+    }
+    return _list;
   }
 
   Stream<List<ClanzEvent>> get events {
     return eventCollection.snapshots().map(_eventList);
+  }
+
+  void registerEvent(ClanzEvent event) {
+    Firestore.instance.runTransaction((Transaction tx) async {
+      var _result = await eventCollection.add(event.toJson());
+    });
   }
 }
