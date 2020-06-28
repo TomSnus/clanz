@@ -1,3 +1,5 @@
+import 'package:clanz/shared/date_time_utils.dart';
+
 class ClanzEvent {
   String name;
   String icon;
@@ -31,9 +33,10 @@ class ClanzEvent {
     game = parsedJson['game'] ?? '';
     name = parsedJson['name'] ?? '';
     icon = parsedJson['icon'] ?? '';
-    date = DateTime.now(); //DateTime.parse(parsedJson['date']) ?? DateTime.now();
+    date = DateTimeUtils.getDateTimeFromTimestamp(parsedJson['date']) ??
+        DateTime.now();
     description = parsedJson['description'] ?? '';
     creator = parsedJson['creator'] ?? '';
-    participants = List();// parsedJson['participants'] ?? '';
+    //participants = parsedJson['participants'] ?? '';
   }
 }

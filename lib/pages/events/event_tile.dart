@@ -1,5 +1,3 @@
-
-
 import 'package:clanz/models/clanz_event.dart';
 import 'package:clanz/presentaion/clanz_colors.dart';
 import 'package:clanz/ui/CustomIconFactory.dart';
@@ -12,22 +10,55 @@ class EventTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.only(top: 8.0),
-        child: Card(
-          margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
-          child: ListTile(
-            trailing: Icon(CustomIconFactory().getIcon(event.icon)),
-            title: Text(event.name) ?? '',
-            subtitle: Text(event.game ?? ''),
-            isThreeLine: true,
-            
-            leading: CircleAvatar(
-              child: Icon(Icons.sentiment_very_satisfied, color: Colors.white,),
-              radius: 25.0,
-              backgroundColor: ClanzColors.getSecColor(),
+    return Container(
+      height: 200.0,
+      //color: ClanzColors.getSecColor(),
+      child: Container(
+        padding: const EdgeInsets.all(20.0),
+        margin: const EdgeInsets.all(10.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          color: ClanzColors.getSecColorDark(),
+        ),
+        child: Stack(
+          children: <Widget>[
+            getLeadingControl(event),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                event.name,
+                style: TextStyle(color: Colors.white, fontSize: 20.0),
+              ),
             ),
+            Align(alignment: Alignment.bottomRight, child: Text('dummer Tom'))
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container getLeadingControl(ClanzEvent event) {
+    return Container(
+      child: Column(
+        children: [
+          CircleAvatar(
+            child: Icon(CustomIconFactory().getIcon(event.icon)),
+            radius: 25.0,
+            backgroundColor: ClanzColors.getSecColor(),
           ),
-        ));
+        ],
+      ),
+    );
+  }
+
+  Container getTrailingControl(ClanzEvent event) {
+    return Container(
+      child: Column(
+        children: [
+          Icon(CustomIconFactory().getIcon(event.icon)),
+          Text(event.game)
+        ],
+      ),
+    );
   }
 }

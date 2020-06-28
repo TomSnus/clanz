@@ -83,7 +83,7 @@ class _EventRegistrationFieldsState extends State<EventRegistrationFields> {
                     SizedBox(height: 20.0),
                     getDescriptionControl(),
                     SizedBox(height: 20.0),
-                    getAcceptButtonControl(),
+                    getAcceptButtonControl(context),
                   ],
                 ),
               ),
@@ -160,7 +160,7 @@ class _EventRegistrationFieldsState extends State<EventRegistrationFields> {
     );
   }
 
-  Center getAcceptButtonControl() {
+  Center getAcceptButtonControl(BuildContext context) {
     return Center(
         child: RaisedButton(
       color: ClanzColors.getSecColor(),
@@ -168,12 +168,12 @@ class _EventRegistrationFieldsState extends State<EventRegistrationFields> {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18.0),
           side: BorderSide(color: Colors.white, width: 1.0)),
-      onPressed: () => _applyEvent(),
+      onPressed: () => _applyEvent(context),
       child: Text('GO!'),
     ));
   }
 
-  _applyEvent() {
+  _applyEvent(BuildContext context) {
     ClanzEvent newEvent = new ClanzEvent(
         name: _selectedName,
         date: _selectedDate,
@@ -181,5 +181,6 @@ class _EventRegistrationFieldsState extends State<EventRegistrationFields> {
         game: _selectedValue,
         participants: List<String>());
     dbService.registerEvent(newEvent);
+    Navigator.pop(context);
   }
 }

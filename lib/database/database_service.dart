@@ -116,7 +116,7 @@ class DatabaseService {
 
   //event data
   List<ClanzEvent> _eventList(QuerySnapshot snap) {
-    List<ClanzEvent> _list;
+    List<ClanzEvent> _list = List();
     List<DocumentSnapshot> eventDocs = snap.documents;
     for (int _i = 0; _i < eventDocs.length; _i++) {
       ClanzEvent event = ClanzEvent.fromJson(eventDocs[_i].data);

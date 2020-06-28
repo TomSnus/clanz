@@ -9,34 +9,37 @@ import 'package:provider/provider.dart';
 import 'event_tile.dart';
 
 class EventPage extends StatelessWidget {
+  EventRegistrationPageRoute eventPageRoute = new EventRegistrationPageRoute();
+
   static Route<dynamic> route() => MaterialPageRoute(
         builder: (context) => EventPage(),
       );
 
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<List<ClanzEvent>>.value(
-      value: DatabaseService().events,
-      child: Scaffold(
-        body: EventList(),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: ClanzColors.getPrimaryColor(),
-          elevation: 20.0,
-          onPressed: () {
-            Navigator.of(context).push(new EventRegistrationPageRoute());
-            /*
-            Navigator.push(context,
-                MaterialPageRoute(builder:
-                (context) => EventRegistrationView()));
-                */
-          },
-          child: Icon(
-            Icons.add,
-            color: ClanzColors.getSecColor(),
-          ),
-          heroTag: "demoTag",
+    return Scaffold(
+      floatingActionButton: getFloatingActionButton(context),
+      body: StreamProvider<List<ClanzEvent>>.value(
+        value: DatabaseService().events,
+        child: Scaffold(
+          body: EventList(),
         ),
       ),
+    );
+  }
+
+  FloatingActionButton getFloatingActionButton(BuildContext context) {
+    return FloatingActionButton(
+      backgroundColor: ClanzColors.getPrimaryColor(),
+      elevation: 20.0,
+      onPressed: () {
+        Navigator.of(context).push(eventPageRoute);
+      },
+      child: Icon(
+        Icons.add,
+        color: ClanzColors.getSecColor(),
+      ),
+      heroTag: 'eventTag',
     );
   }
 }
@@ -47,9 +50,6 @@ class EventList extends StatefulWidget {
 }
 
 class _EventListState extends State<EventList> {
-
-
-
   @override
   Widget build(BuildContext context) {
     final events = Provider.of<List<ClanzEvent>>(context);
@@ -59,11 +59,11 @@ class _EventListState extends State<EventList> {
       );
     }
     return ListView.builder(
-      itemCount: events.length,
-      itemBuilder: (context, index) {
-        return EventTile(event: events[index]);
-      },
-    );
+        itemExtent: 200.0,
+        itemCount: events.length,
+        itemBuilder: (context, index) {
+          return EventTile(event: events[index]);
+        });
 
     //return Scaffold();
   }

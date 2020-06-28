@@ -26,7 +26,6 @@ class EventRegistrationView extends StatelessWidget {
       ),
       body: Center(
         child: Hero(
-          tag: "demoTag",
           child: EventRegistrationFields(),
           flightShuttleBuilder:
               (flightContext, animation, direction, fromContext, toContext) {
@@ -51,6 +50,7 @@ class EventRegistrationView extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           },
+          tag: 'eventTag',
         ),
       ),
     );
