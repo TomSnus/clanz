@@ -33,7 +33,7 @@ class EventPage extends StatelessWidget {
       backgroundColor: ClanzColors.getPrimaryColor(),
       elevation: 20.0,
       onPressed: () {
-        Navigator.of(context).push(eventPageRoute);
+        Navigator.of(context).push( new EventRegistrationPageRoute());
       },
       child: Icon(
         Icons.add,

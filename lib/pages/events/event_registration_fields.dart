@@ -1,8 +1,10 @@
 import 'dart:js';
 
+import 'package:clanz/models/calnz_game_factory.dart';
 import 'package:clanz/models/clanz_event.dart';
 import 'package:clanz/presentaion/clanz_colors.dart';
 import 'package:clanz/shared/constants.dart';
+import 'package:clanz/ui/CustomIconFactory.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -179,8 +181,9 @@ class _EventRegistrationFieldsState extends State<EventRegistrationFields> {
         date: _selectedDate,
         description: _selectedDescription,
         game: _selectedValue,
+        icon: CustomIconFactory().getIconIdByName(_selectedValue),
         participants: List<String>());
     dbService.registerEvent(newEvent);
-    Navigator.pop(context);
+    Navigator.pop(context, "eventRegistration");
   }
 }
