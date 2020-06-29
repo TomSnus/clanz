@@ -1,3 +1,4 @@
+import 'package:clanz/models/clanz_user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -23,11 +24,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     setupLocator();
-    return StreamProvider<List<ClanzGame>>.value(
-      value: DatabaseService().games,
+    return MultiProvider(
+      providers: [
+        StreamProvider<List<ClanzGame>>.value(value: DatabaseService().games),
+        StreamProvider<ClanzUser>.value(value: DatabaseService().user)
+      ],
       child: MaterialApp(
         localizationsDelegates: [
-          // ... app-specific localization delegate[s] here
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,

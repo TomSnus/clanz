@@ -1,6 +1,5 @@
 import 'dart:js';
 
-import 'package:clanz/models/calnz_game_factory.dart';
 import 'package:clanz/models/clanz_event.dart';
 import 'package:clanz/presentaion/clanz_colors.dart';
 import 'package:clanz/shared/constants.dart';

@@ -13,12 +13,22 @@ class DatabaseService {
   final CollectionReference eventCollection =
       Firestore.instance.collection('events');
 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   Future<String> getUserId() async {
     if (_uid == null) {
       FirebaseUser user = await FirebaseAuth.instance.currentUser();
       _uid = user.uid;
     }
     return _uid;
+  }
+
+  ClanzUser _userFromFirebaseUser(FirebaseUser user) {
+    return user != null ? ClanzUser(uid: user.uid) : null;
+  }
+
+  Stream<ClanzUser> get user {
+    return _auth.onAuthStateChanged.map(_userFromFirebaseUser);
   }
 
   Future<bool> getIsUserRegistered() async {

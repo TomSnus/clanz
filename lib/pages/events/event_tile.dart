@@ -1,11 +1,14 @@
 import 'package:clanz/models/clanz_event.dart';
 import 'package:clanz/presentaion/clanz_colors.dart';
 import 'package:clanz/ui/CustomIconFactory.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class EventTile extends StatelessWidget {
   final ClanzEvent event;
+  final _hasJoined = false;
+  final _buttonText = 'Join';
   const EventTile({this.event});
 
   @override
@@ -30,7 +33,10 @@ class EventTile extends StatelessWidget {
                 style: TextStyle(color: Colors.white, fontSize: 20.0),
               ),
             ),
-            Align(alignment: Alignment.bottomRight, child: Text('dummer Tom'))
+            Align(
+              alignment: Alignment.bottomRight,
+              child: _getJoinButton(),
+            )
           ],
         ),
       ),
@@ -39,16 +45,28 @@ class EventTile extends StatelessWidget {
 
   Container getLeadingControl(ClanzEvent event) {
     return Container(
-      child: Column(
-        children: [
-          CircleAvatar(
-            child: Icon(CustomIconFactory().getIcon(event.icon)),
-            radius: 25.0,
-            backgroundColor: ClanzColors.getSecColor(),
+        child: CircleAvatar(
+          child: Icon(
+            CustomIconFactory().getIcon(event.icon),
+            color: Colors.white,
           ),
-        ],
-      ),
-    );
+          radius: 25.0,
+          backgroundColor: ClanzColors.getSecColor(),
+        ),
+        decoration: new BoxDecoration(
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 2,
+                blurRadius: 0,
+                // offset: Offset(2, 2),
+              ),
+            ],
+            border: new Border.all(
+              color: ClanzColors.getSecColorLight(),
+              width: 4.0,
+            )));
   }
 
   Container getTrailingControl(ClanzEvent event) {
@@ -61,4 +79,18 @@ class EventTile extends StatelessWidget {
       ),
     );
   }
+
+  RaisedButton _getJoinButton() {
+    return RaisedButton(
+        onPressed: () {},
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
+        elevation: 20.0,
+        padding: EdgeInsets.all(0.0),
+        child: Text(_buttonText,
+            style:
+                TextStyle(color: Colors.white, fontWeight: FontWeight.bold)));
+  }
+
+  _joinEvent() {}
 }
