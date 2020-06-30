@@ -1,6 +1,7 @@
 import 'dart:js';
 
 import 'package:clanz/models/clanz_event.dart';
+import 'package:clanz/models/clanz_user.dart';
 import 'package:clanz/presentaion/clanz_colors.dart';
 import 'package:clanz/shared/constants.dart';
 import 'package:clanz/ui/CustomIconFactory.dart';
@@ -33,13 +34,14 @@ class _EventRegistrationFieldsState extends State<EventRegistrationFields> {
   String _selectedDescription;
   String _selectedName;
   static DateTime _selectedDate = DateTime.now();
-
+  ClanzUser user;
   @override
   Widget build(BuildContext context) {
     List<ClanzGame> games;
     return FutureBuilder<String>(
         future: dbService.getUserId(),
         builder: (context, AsyncSnapshot<String> snapshot) {
+          user = Provider.of<ClanzUser>(context);
           games = Provider.of<List<ClanzGame>>(context, listen: false);
           if (snapshot.hasData) {
             return Container(
@@ -181,7 +183,7 @@ class _EventRegistrationFieldsState extends State<EventRegistrationFields> {
         description: _selectedDescription,
         game: _selectedValue,
         icon: CustomIconFactory().getIconIdByName(_selectedValue),
-        participants: List<String>());
+        participants: {user.uid: 1});
     dbService.registerEvent(newEvent);
     Navigator.pop(context, "eventRegistration");
   }

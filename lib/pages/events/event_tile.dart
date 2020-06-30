@@ -1,18 +1,30 @@
+import 'package:clanz/database/database_service.dart';
 import 'package:clanz/models/clanz_event.dart';
+import 'package:clanz/models/clanz_user.dart';
 import 'package:clanz/presentaion/clanz_colors.dart';
 import 'package:clanz/ui/CustomIconFactory.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 class EventTile extends StatelessWidget {
   final ClanzEvent event;
   final _hasJoined = false;
   final _buttonText = 'Join';
-  const EventTile({this.event});
+  ClanzUser user;
+  DatabaseService dbService = new DatabaseService();
+  EventTile({this.event});
 
   @override
   Widget build(BuildContext context) {
+    final userId = Provider.of<ClanzUser>(context);
+    if (userId == null) {
+      return CircularProgressIndicator(
+        backgroundColor: Colors.red,
+      );
+    }
+    user = userId;
     return Container(
       height: 200.0,
       //color: ClanzColors.getSecColor(),
@@ -82,15 +94,37 @@ class EventTile extends StatelessWidget {
 
   RaisedButton _getJoinButton() {
     return RaisedButton(
-        onPressed: () {},
+        onPressed: () {
+          _joinEvent();
+        },
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
         elevation: 20.0,
         padding: EdgeInsets.all(0.0),
-        child: Text(_buttonText,
-            style:
-                TextStyle(color: Colors.white, fontWeight: FontWeight.bold)));
+        child: Text(
+          _hasUserJoined() ? _buttonText : 'Abmelden',
+          style: _getButtonStyle(),
+        ));
   }
 
-  _joinEvent() {}
+  _joinEvent() {
+    int flag = 1;
+    if (_hasUserJoined()) {
+      flag = 0;
+    }
+    dbService.joinEvent(event, user, flag);
+  }
+
+  bool _hasUserJoined() {
+    return event.participants != null &&
+        user != null &&
+        event.participants.containsKey(user.uid) &&
+        event.participants[user.uid] == 1;
+  }
+
+  TextStyle _getButtonStyle() {
+    if (_hasUserJoined())
+      return TextStyle(color: Colors.green, fontWeight: FontWeight.bold);
+    return TextStyle(color: Colors.red, fontWeight: FontWeight.bold);
+  }
 }

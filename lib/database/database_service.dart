@@ -145,4 +145,11 @@ class DatabaseService {
       var _result = await eventCollection.add(event.toJson());
     });
   }
+
+  void joinEvent(ClanzEvent event, ClanzUser user, int flag) {
+    int enabled = 1;
+    eventCollection.document(event.id).setData({
+      'participants': {user.uid: flag},
+    }, merge: true);
+  }
 }

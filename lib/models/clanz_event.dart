@@ -4,7 +4,7 @@ class ClanzEvent {
   String name;
   String icon;
   String game;
-  List<String> participants;
+  Map<String, dynamic> participants;
   DateTime date;
   String description;
   String creator;
@@ -26,6 +26,7 @@ class ClanzEvent {
         'date': date,
         'description': description,
         'creator': creator,
+        'participants': participants,
       };
 
   ClanzEvent.fromJson(Map parsedJson) {
@@ -37,6 +38,6 @@ class ClanzEvent {
         DateTime.now();
     description = parsedJson['description'] ?? '';
     creator = parsedJson['creator'] ?? '';
-    //participants = parsedJson['participants'] ?? '';
+    participants = parsedJson['participants'] ?? '';
   }
 }
