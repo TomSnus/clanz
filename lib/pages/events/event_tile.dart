@@ -19,7 +19,8 @@ class EventTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userId = Provider.of<ClanzUser>(context);
-    if (userId == null) {
+    final users = Provider.of<List<ClanzUser>>(context);
+    if (userId == null || users == null) {
       return CircularProgressIndicator(
         backgroundColor: Colors.red,
       );
@@ -48,6 +49,10 @@ class EventTile extends StatelessWidget {
             Align(
               alignment: Alignment.bottomRight,
               child: _getJoinButton(),
+            ),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: _getParticipants(context, users),
             )
           ],
         ),
@@ -126,5 +131,31 @@ class EventTile extends StatelessWidget {
     if (_hasUserJoined())
       return TextStyle(color: Colors.green, fontWeight: FontWeight.bold);
     return TextStyle(color: Colors.red, fontWeight: FontWeight.bold);
+  }
+
+  Widget _getCreator(BuildContext context) {
+    String creator = 'Veranstalter: ';
+    return new StreamBuilder(
+        stream: dbService.userCollection.document(user.uid).snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return new Text("Loading");
+          }
+          var userDocument = snapshot.data;
+          return new Text(creator + userDocument["name"]);
+        });
+  }
+
+  Widget _getParticipants(BuildContext context, List<ClanzUser> users) {
+    List<String> userIds = List();
+    List<String> userNames = List();
+    String participants = 'Teilnehmer:';
+    event.participants.forEach((key, value) {
+      if (value == 1) userIds.add(key);
+    });
+    users.forEach((element) {
+      if (userIds.contains(element.uid)) userNames.add(element.name);
+    });
+    return Text(participants + userNames.toString());
   }
 }

@@ -152,4 +152,10 @@ class DatabaseService {
       'participants': {user.uid: flag},
     }, merge: true);
   }
+
+  Future<List<String>> getUserFromId(List<String> userIds) async {
+    List<String> userNames = List<String>();
+    for (String id in userIds) print(userCollection.document(id).documentID);
+    return userNames;
+  }
 }

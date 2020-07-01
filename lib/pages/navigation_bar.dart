@@ -70,7 +70,7 @@ class _BottomNavigationDemoState extends State<BottomNavigationDemo>
           //color: Colors.lightGreen,
         ),
         _NavigationIconView(
-          page: ProfilePage(),
+          page: Container(),
           icon: const Icon(Icons.account_circle),
           title: 'Account',
           vsync: this,

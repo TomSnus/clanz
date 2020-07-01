@@ -27,7 +27,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         StreamProvider<List<ClanzGame>>.value(value: DatabaseService().games),
-        StreamProvider<ClanzUser>.value(value: DatabaseService().user)
+        StreamProvider<ClanzUser>.value(value: DatabaseService().user),
+        StreamProvider<List<ClanzUser>>.value(
+            value: DatabaseService().clanzUsers)
       ],
       child: MaterialApp(
         localizationsDelegates: [
