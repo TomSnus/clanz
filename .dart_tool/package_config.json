@@ -44,6 +44,24 @@
       "languageVersion": "2.1"
     },
     {
+      "name": "cloud_functions",
+      "rootUri": "file:///C:/Users/Jon/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_functions-0.5.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
+      "name": "cloud_functions_platform_interface",
+      "rootUri": "file:///C:/Users/Jon/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_functions_platform_interface-1.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
+      "name": "cloud_functions_web",
+      "rootUri": "file:///C:/Users/Jon/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_functions_web-1.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
       "name": "collection",
       "rootUri": "file:///C:/Users/Jon/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.14.12",
       "packageUri": "lib/",
@@ -106,6 +124,12 @@
     {
       "name": "firebase_database",
       "rootUri": "file:///C:/Users/Jon/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_database-3.1.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
+      "name": "firebase_messaging",
+      "rootUri": "file:///C:/Users/Jon/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_messaging-6.0.16",
       "packageUri": "lib/",
       "languageVersion": "2.0"
     },
@@ -224,6 +248,12 @@
       "languageVersion": "2.1"
     },
     {
+      "name": "platform",
+      "rootUri": "file:///C:/Users/Jon/flutter/.pub-cache/hosted/pub.dartlang.org/platform-2.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "1.24"
+    },
+    {
       "name": "plugin_platform_interface",
       "rootUri": "file:///C:/Users/Jon/flutter/.pub-cache/hosted/pub.dartlang.org/plugin_platform_interface-1.0.2",
       "packageUri": "lib/",
@@ -307,7 +337,7 @@
       "packageUri": "lib/"
     }
   ],
-  "generated": "2020-06-27T14:19:48.008454Z",
+  "generated": "2020-07-02T18:08:38.436330Z",
   "generator": "pub",
   "generatorVersion": "2.9.0-14.1.beta"
 }

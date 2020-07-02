@@ -1,4 +1,5 @@
 import 'package:clanz/database/database_service.dart';
+import 'package:clanz/messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -33,6 +34,11 @@ class GamesTile extends StatelessWidget {
   }
 
   void _toggle(String userId, String game, bool toggle) {
+    final _messaging = FBMessaging.instance;
+    _messaging.requestPermission().then((_) async {
+      final _token = await _messaging.getToken();
+      print('Token: $_token');
+    });
     DatabaseService dbService = DatabaseService();
     dbService.updateSubscriptionData(userId, game, toggle);
   }

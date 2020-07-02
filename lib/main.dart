@@ -13,6 +13,7 @@ import 'package:clanz/presentaion/clanz_colors.dart';
 import 'package:clanz/services/authentication.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'managers/dialog_manager.dart';
+import 'messaging/firebase_messaging.dart';
 
 void main() {
   runApp(
